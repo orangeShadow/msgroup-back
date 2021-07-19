@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Firebase Phone Number Auth</title>
+</head>
+<body>
+<div id="recaptcha-container"></div>
+<form>
+<!--    <input type="text" id="verificationcode" value="123456">-->
+    <input type="button" value="Get Token" onclick="myFunction()">
+</form>
+<textarea id="result" style="width:90%;height:200px;"></textarea>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-auth.js"></script>
+
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyDZNuPGuP_tXCENvRSjIjbnsBscLbnL5-8",
+        authDomain: "test-188a5.firebaseapp.com",
+        databaseURL: "https://test-188a5.firebaseio.com",
+        projectId: "test-188a5",
+        storageBucket: "test-188a5.appspot.com",
+        messagingSenderId: "312281723919",
+        appId: "1:312281723919:web:bc80c30c2256dc4b26df7a"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+</script>
+<script type="text/javascript">
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+    firebase.auth().signInWithPhoneNumber("+79236470954", window.recaptchaVerifier)
+        .then(function(confirmationResult) {
+            window.confirmationResult = confirmationResult;
+            console.log(confirmationResult);
+        }).catch(function(error) {
+        console.log(error);
+    });
+    var myFunction = function() {
+        window.confirmationResult.confirm('123456')
+            .then(function(result) {
+                // console.log(result);
+                firebase.auth().currentUser.getIdToken(false).then(function (idToken) {
+
+                    console.log('Token: ', idToken);
+                    document.getElementById("result").textContent = idToken;
+
+                }).catch(function (error) {
+                    console.log('currentUser error',error);
+                });
+
+            }).catch(function(error) {
+            console.log(error);
+        });
+    };
+</script>
+</body>
+</html>

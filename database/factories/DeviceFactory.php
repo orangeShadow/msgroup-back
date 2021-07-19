@@ -1,0 +1,31 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Device;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class DeviceFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Device::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'manufacturer_id' => $this->faker->numberBetween(1,5),
+            'type_id' => $this->faker->numberBetween(1,3),
+            'title' => $this->faker->word,
+            'active' => true,
+        ];
+    }
+}
